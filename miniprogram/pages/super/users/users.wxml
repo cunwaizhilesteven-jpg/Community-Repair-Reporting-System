@@ -1,0 +1,157 @@
+<!--
+  用户管理页面
+  超级管理员管理系统用户
+-->
+<view class="container">
+  <!-- 搜索和筛选区域 -->
+  <view class="filter-section">
+    <!-- 搜索框 -->
+    <view class="search-box">
+      <input
+        class="search-input"
+        placeholder="搜索姓名或手机号"
+        value="{{filters.keyword}}"
+        bindinput="onKeywordInput"
+        bindconfirm="doSearch"
+      />
+      <view class="search-btn" bindtap="doSearch">搜索</view>
+    </view>
+
+    <!-- 筛选器 -->
+    <view class="filter-row">
+      <picker
+        class="filter-picker"
+        mode="selector"
+        range="{{roleOptions}}"
+        range-key="label"
+        bindchange="onRoleChange"
+      >
+        <view class="picker-value">
+          {{roleOptions[0].label}}
+          <text class="arrow">▼</text>
+        </view>
+      </picker>
+
+      <picker
+        class="filter-picker"
+        mode="selector"
+        range="{{statusOptions}}"
+        range-key="label"
+        bindchange="onStatusChange"
+      >
+        <view class="picker-value">
+          {{statusOptions[0].label}}
+          <text class="arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-btn" bindtap="showAddModal">
+    <text class="add-icon">+</text>
+    <text>添加用户</text>
+  </view>
+
+  <!-- 用户列表 -->
+  <view class="user-list">
+    <view
+      class="user-card"
+      wx:for="{{users}}"
+      wx:key="id"
+    >
+      <view class="user-info" bindtap="editUser" data-user="{{item}}">
+        <view class="user-avatar">
+          <text class="avatar-text">{{item.name[0]}}</text>
+        </view>
+        <view class="user-detail">
+          <view class="user-name">
+            {{item.name}}
+            <text class="role-tag {{item.role}}">{{item.roleName}}</text>
+          </view>
+          <view class="user-phone">{{item.phone}}</view>
+        </view>
+      </view>
+      <view class="user-actions">
+        <view
+          class="status-btn {{item.status}}"
+          bindtap="toggleStatus"
+          data-user="{{item}}"
+          wx:if="{{item.role !== 'super'}}"
+        >
+          {{item.status === 'active' ? '禁用' : '启用'}}
+        </view>
+        <view class="super-tag" wx:if="{{item.role === 'super'}}">
+          超管
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{users.length === 0 && !loading}}">
+      <text class="empty-text">暂无用户数据</text>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+    <view class="load-more" wx:if="{{!hasMore && users.length > 0}}">
+      <text>没有更多了</text>
+    </view>
+  </view>
+
+  <!-- 编辑弹窗 -->
+  <view class="modal-mask" wx:if="{{showEditModal}}" bindtap="closeModal">
+    <view class="modal-content" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">{{isNew ? '添加用户' : '编辑用户'}}</text>
+        <text class="modal-close" bindtap="closeModal">×</text>
+      </view>
+
+      <view class="modal-body">
+        <view class="form-item">
+          <text class="form-label">姓名</text>
+          <input
+            class="form-input"
+            placeholder="请输入姓名"
+            value="{{formData.name}}"
+            bindinput="onNameInput"
+          />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">手机号</text>
+          <input
+            class="form-input"
+            placeholder="请输入手机号"
+            type="number"
+            maxlength="11"
+            value="{{formData.phone}}"
+            bindinput="onPhoneInput"
+          />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">角色</text>
+          <picker
+            class="form-picker"
+            mode="selector"
+            range="{{['居民', '维修人员', '管理员']}}"
+            bindchange="onRoleSelect"
+          >
+            <view class="picker-value">
+              {{formData.role === 'resident' ? '居民' : formData.role === 'repairman' ? '维修人员' : '管理员'}}
+              <text class="arrow">▼</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <view class="btn-cancel" bindtap="closeModal">取消</view>
+        <view class="btn-confirm" bindtap="saveUser">保存</view>
+      </view>
+    </view>
+  </view>
+</view>

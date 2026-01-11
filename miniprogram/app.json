@@ -12,7 +12,11 @@
     "pages/admin/work-orders/work-orders",
     "pages/admin/order-detail/order-detail",
     "pages/admin/categories/categories",
-    "pages/admin/statistics/statistics"
+    "pages/admin/statistics/statistics",
+    "pages/super/index/index",
+    "pages/super/users/users",
+    "pages/super/buildings/buildings",
+    "pages/super/export/export"
   ],
   "window": {
     "backgroundTextStyle": "light",

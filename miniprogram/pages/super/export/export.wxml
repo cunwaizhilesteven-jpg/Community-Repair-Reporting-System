@@ -1,0 +1,117 @@
+<!--
+  数据导出页面
+  超级管理员导出工单数据
+-->
+<view class="container">
+  <!-- 页面说明 -->
+  <view class="header-card">
+    <view class="header-icon">📊</view>
+    <view class="header-info">
+      <text class="header-title">工单数据导出</text>
+      <text class="header-desc">选择条件后导出为Excel文件</text>
+    </view>
+  </view>
+
+  <!-- 导出配置 -->
+  <view class="config-section">
+    <view class="section-title">选择时间范围</view>
+
+    <!-- 快捷选择 -->
+    <view class="quick-select">
+      <view class="quick-btn" bindtap="selectLast7Days">最近7天</view>
+      <view class="quick-btn" bindtap="selectLast30Days">最近30天</view>
+      <view class="quick-btn" bindtap="selectThisMonth">本月</view>
+    </view>
+
+    <!-- 日期选择 -->
+    <view class="date-row">
+      <view class="date-item">
+        <text class="date-label">开始日期</text>
+        <picker
+          mode="date"
+          value="{{exportConfig.startDate}}"
+          bindchange="onStartDateChange"
+        >
+          <view class="date-picker">
+            <text class="date-value">{{exportConfig.startDate || '选择日期'}}</text>
+            <text class="date-icon">📅</text>
+          </view>
+        </picker>
+      </view>
+      <view class="date-divider">至</view>
+      <view class="date-item">
+        <text class="date-label">结束日期</text>
+        <picker
+          mode="date"
+          value="{{exportConfig.endDate}}"
+          bindchange="onEndDateChange"
+        >
+          <view class="date-picker">
+            <text class="date-value">{{exportConfig.endDate || '选择日期'}}</text>
+            <text class="date-icon">📅</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 状态筛选 -->
+    <view class="filter-item">
+      <text class="filter-label">工单状态</text>
+      <picker
+        mode="selector"
+        range="{{statusOptions}}"
+        range-key="label"
+        value="{{statusIndex}}"
+        bindchange="onStatusChange"
+      >
+        <view class="filter-picker">
+          <text class="picker-text">{{statusOptions[statusIndex].label}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 导出说明 -->
+  <view class="tips-section">
+    <view class="section-title">导出说明</view>
+    <view class="tips-content">
+      <view class="tip-item">
+        <text class="tip-icon">•</text>
+        <text class="tip-text">导出数据包含：工单编号、类别、位置、描述、状态、时间等</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-icon">•</text>
+        <text class="tip-text">文件格式为 Excel (.xlsx)</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-icon">•</text>
+        <text class="tip-text">由于小程序限制，需要复制链接到浏览器下载</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <view class="btn-secondary" bindtap="previewData">
+      预览数据
+    </view>
+    <view class="btn-primary {{exporting ? 'disabled' : ''}}" bindtap="doExport">
+      {{exporting ? '准备中...' : '导出Excel'}}
+    </view>
+  </view>
+
+  <!-- 导出历史 -->
+  <view class="history-section" wx:if="{{exportHistory.length > 0}}">
+    <view class="section-title">最近导出</view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{exportHistory}}" wx:key="id">
+        <view class="history-info">
+          <text class="history-date">{{item.startDate}} ~ {{item.endDate}}</text>
+          <text class="history-status">{{item.status}}</text>
+        </view>
+        <text class="history-time">{{item.exportTime}}</text>
+      </view>
+    </view>
+  </view>
+</view>

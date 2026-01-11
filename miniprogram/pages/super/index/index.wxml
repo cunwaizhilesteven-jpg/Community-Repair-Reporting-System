@@ -1,0 +1,80 @@
+<!--
+  超级管理员首页
+  展示系统概览和快捷入口
+-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">系统管理</text>
+    <text class="subtitle">超级管理员控制台</text>
+  </view>
+
+  <!-- 数据概览卡片 -->
+  <view class="overview-section">
+    <view class="section-title">数据概览</view>
+    <view class="stats-grid">
+      <view class="stat-card">
+        <text class="stat-value">{{overview.totalUsers}}</text>
+        <text class="stat-label">总用户数</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-value">{{overview.totalBuildings}}</text>
+        <text class="stat-label">楼栋数</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-value">{{overview.totalOrders}}</text>
+        <text class="stat-label">总工单数</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-value">{{overview.todayOrders}}</text>
+        <text class="stat-label">今日工单</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="menu-section">
+    <view class="section-title">管理功能</view>
+
+    <view class="menu-card" bindtap="goToUsers">
+      <view class="menu-icon users-icon">
+        <text class="icon-text">用</text>
+      </view>
+      <view class="menu-info">
+        <text class="menu-title">用户管理</text>
+        <text class="menu-desc">管理系统用户、分配角色、启用禁用</text>
+      </view>
+      <view class="menu-arrow">></view>
+    </view>
+
+    <view class="menu-card" bindtap="goToBuildings">
+      <view class="menu-icon buildings-icon">
+        <text class="icon-text">楼</text>
+      </view>
+      <view class="menu-info">
+        <text class="menu-title">楼栋管理</text>
+        <text class="menu-desc">添加、编辑、删除小区楼栋信息</text>
+      </view>
+      <view class="menu-arrow">></view>
+    </view>
+
+    <view class="menu-card" bindtap="goToExport">
+      <view class="menu-icon export-icon">
+        <text class="icon-text">导</text>
+      </view>
+      <view class="menu-info">
+        <text class="menu-title">数据导出</text>
+        <text class="menu-desc">导出工单数据为Excel文件</text>
+      </view>
+      <view class="menu-arrow">></view>
+    </view>
+  </view>
+
+  <!-- 加载中提示 -->
+  <view class="loading-mask" wx:if="{{loading}}">
+    <view class="loading-content">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+  </view>
+</view>

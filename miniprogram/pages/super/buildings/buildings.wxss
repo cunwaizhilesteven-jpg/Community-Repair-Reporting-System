@@ -1,0 +1,231 @@
+/**
+ * 楼栋管理页面样式
+ */
+
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 20rpx 30rpx 40rpx;
+}
+
+/* 添加按钮 */
+.add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1890ff;
+  color: #fff;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.add-icon {
+  font-size: 36rpx;
+  margin-right: 10rpx;
+}
+
+/* 楼栋列表 */
+.building-list {
+  /* 楼栋列表容器 */
+}
+
+.building-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.building-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.building-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #faad14 0%, #d48806 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+}
+
+.icon-text {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.building-detail {
+  flex: 1;
+}
+
+.building-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.building-meta {
+  display: flex;
+  align-items: center;
+  margin-top: 8rpx;
+}
+
+.meta-item {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.meta-divider {
+  margin: 0 12rpx;
+  color: #ddd;
+}
+
+.building-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.action-btn {
+  font-size: 26rpx;
+  padding: 12rpx 24rpx;
+  border-radius: 8rpx;
+}
+
+.action-btn.edit {
+  background: #e6f7ff;
+  color: #1890ff;
+}
+
+.action-btn.delete {
+  background: #fff1f0;
+  color: #ff4d4f;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 0;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #666;
+  display: block;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #999;
+  margin-top: 10rpx;
+  display: block;
+}
+
+/* 加载中 */
+.loading {
+  text-align: center;
+  padding: 40rpx;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 弹窗样式 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 85%;
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 48rpx;
+  color: #999;
+  line-height: 1;
+}
+
+.modal-body {
+  padding: 30rpx;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+  display: block;
+}
+
+.form-input {
+  background: #f5f5f5;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+}
+
+.modal-footer {
+  display: flex;
+  border-top: 1rpx solid #eee;
+}
+
+.btn-cancel,
+.btn-confirm {
+  flex: 1;
+  text-align: center;
+  padding: 30rpx;
+  font-size: 30rpx;
+}
+
+.btn-cancel {
+  color: #666;
+  border-right: 1rpx solid #eee;
+}
+
+.btn-confirm {
+  color: #1890ff;
+  font-weight: 500;
+}

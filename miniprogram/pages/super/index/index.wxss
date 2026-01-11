@@ -1,0 +1,173 @@
+/**
+ * 超级管理员首页样式
+ */
+
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding-bottom: 40rpx;
+}
+
+/* 头部样式 */
+.header {
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  padding: 60rpx 40rpx;
+  color: #fff;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  display: block;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  opacity: 0.8;
+  margin-top: 10rpx;
+  display: block;
+}
+
+/* 数据概览区域 */
+.overview-section {
+  margin: 30rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #1890ff;
+  display: block;
+}
+
+.stat-label {
+  font-size: 26rpx;
+  color: #999;
+  margin-top: 10rpx;
+  display: block;
+}
+
+/* 菜单区域 */
+.menu-section {
+  margin: 30rpx;
+}
+
+.menu-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.menu-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.users-icon {
+  background: linear-gradient(135deg, #52c41a 0%, #389e0d 100%);
+}
+
+.buildings-icon {
+  background: linear-gradient(135deg, #faad14 0%, #d48806 100%);
+}
+
+.export-icon {
+  background: linear-gradient(135deg, #722ed1 0%, #531dab 100%);
+}
+
+.icon-text {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.menu-info {
+  flex: 1;
+}
+
+.menu-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+  display: block;
+}
+
+.menu-desc {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+  display: block;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+/* 加载遮罩 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #1890ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999;
+}
