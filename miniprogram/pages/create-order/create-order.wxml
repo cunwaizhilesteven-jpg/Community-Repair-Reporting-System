@@ -1,0 +1,90 @@
+<!--
+  报修页面
+-->
+
+<view class="container">
+  <!-- 维修类别 -->
+  <view class="form-item">
+    <view class="form-label">维修类别 <text class="required">*</text></view>
+    <picker mode="selector" range="{{categories}}" range-key="name" bindchange="onCategoryChange">
+      <view class="picker-box {{categoryIndex >= 0 ? '' : 'placeholder'}}">
+        {{categoryIndex >= 0 ? categories[categoryIndex].name : '请选择维修类别'}}
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 位置类型切换 -->
+  <view class="form-item">
+    <view class="switch-row">
+      <text>公共区域报修</text>
+      <switch checked="{{isPublicArea}}" bindchange="onPublicAreaChange" color="#1890ff" />
+    </view>
+  </view>
+
+  <!-- 楼栋选择（非公共区域） -->
+  <view class="form-item" wx:if="{{!isPublicArea}}">
+    <view class="form-label">楼栋 <text class="required">*</text></view>
+    <picker mode="selector" range="{{buildings}}" range-key="name" bindchange="onBuildingChange">
+      <view class="picker-box {{buildingIndex >= 0 ? '' : 'placeholder'}}">
+        {{buildingIndex >= 0 ? buildings[buildingIndex].name : '请选择楼栋'}}
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 单元和房号（非公共区域） -->
+  <view class="form-row" wx:if="{{!isPublicArea}}">
+    <view class="form-item half">
+      <view class="form-label">单元</view>
+      <input class="form-input" placeholder="如：1单元" value="{{unit}}" bindinput="onUnitInput" />
+    </view>
+    <view class="form-item half">
+      <view class="form-label">房号</view>
+      <input class="form-input" placeholder="如：101" value="{{room}}" bindinput="onRoomInput" />
+    </view>
+  </view>
+
+  <!-- 位置描述（公共区域） -->
+  <view class="form-item" wx:if="{{isPublicArea}}">
+    <view class="form-label">位置描述 <text class="required">*</text></view>
+    <input class="form-input" placeholder="如：小区东门旁边的路灯" value="{{locationDesc}}" bindinput="onLocationDescInput" />
+  </view>
+
+  <!-- 问题描述 -->
+  <view class="form-item">
+    <view class="form-label">问题描述 <text class="required">*</text></view>
+    <textarea class="form-textarea" placeholder="请详细描述您遇到的问题..." value="{{description}}" bindinput="onDescriptionInput" maxlength="500" />
+    <view class="word-count">{{description.length}}/500</view>
+  </view>
+
+  <!-- 图片上传 -->
+  <view class="form-item">
+    <view class="form-label">上传图片（最多3张）</view>
+    <view class="image-list">
+      <!-- 已上传的图片 -->
+      <view class="image-item" wx:for="{{images}}" wx:key="index">
+        <image src="{{item}}" mode="aspectFill" bindtap="previewImage" data-url="{{item}}" />
+        <view class="delete-btn" bindtap="deleteImage" data-index="{{index}}">×</view>
+      </view>
+      <!-- 添加按钮 -->
+      <view class="image-item add-btn" wx:if="{{images.length < 3}}" bindtap="chooseImage">
+        <text class="add-icon">+</text>
+        <text class="add-text">添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系电话 -->
+  <view class="form-item">
+    <view class="form-label">联系电话 <text class="required">*</text></view>
+    <input class="form-input" type="number" placeholder="请输入联系电话" value="{{contactPhone}}" bindinput="onPhoneInput" maxlength="11" />
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-area">
+    <button class="btn btn-primary btn-block" bindtap="submitOrder" disabled="{{submitting}}">
+      {{submitting ? '提交中...' : '提交报修'}}
+    </button>
+  </view>
+</view>

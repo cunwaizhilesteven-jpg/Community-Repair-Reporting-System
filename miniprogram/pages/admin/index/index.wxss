@@ -1,0 +1,8 @@
+.stats-card { display: flex; justify-content: space-around; padding: 40rpx 0; }
+.stat-item { text-align: center; }
+.stat-num { display: block; font-size: 48rpx; font-weight: 600; color: #1890ff; }
+.stat-label { font-size: 24rpx; color: #999; }
+.menu-item { display: flex; align-items: center; padding: 30rpx; margin-bottom: 16rpx; }
+.menu-icon { font-size: 40rpx; margin-right: 20rpx; }
+.menu-title { flex: 1; font-size: 30rpx; }
+.menu-arrow { color: #ccc; }

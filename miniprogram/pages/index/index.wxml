@@ -1,0 +1,78 @@
+<!--
+  首页视图
+  ========
+  WXML 是小程序的模板语言，类似 HTML。
+
+  特点：
+  - 使用 {{变量}} 显示数据
+  - 使用 wx:if 条件渲染
+  - 使用 wx:for 循环渲染
+  - 使用 bindtap 绑定点击事件
+-->
+
+<view class="container">
+  <!-- 欢迎区域 -->
+  <view class="welcome-card card">
+    <view class="welcome-text">
+      <text class="greeting">你好，{{userInfo.name || '居民'}}</text>
+      <text class="subtitle">有问题？随时报修</text>
+    </view>
+
+    <!-- 如果是维修人员或管理员，显示入口 -->
+    <view class="role-entry" wx:if="{{userInfo.role !== 'resident'}}" bindtap="goToRolePage">
+      <text wx:if="{{userInfo.role === 'repairman'}}">维修工作台</text>
+      <text wx:if="{{userInfo.role === 'admin' || userInfo.role === 'super'}}">管理后台</text>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <!-- 快捷报修按钮 -->
+  <view class="action-card card" bindtap="goToCreateOrder">
+    <view class="action-icon">
+      <text class="icon-repair">🔧</text>
+    </view>
+    <view class="action-content">
+      <text class="action-title">我要报修</text>
+      <text class="action-desc">拍照上传，快速提交维修申请</text>
+    </view>
+    <view class="action-arrow">
+      <text>></text>
+    </view>
+  </view>
+
+  <!-- 最近工单 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">最近报修</text>
+      <text class="section-more" bindtap="goToOrderList">查看全部 ></text>
+    </view>
+
+    <!-- 加载中 -->
+    <view class="loading" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+
+    <!-- 工单列表 -->
+    <view wx:elif="{{recentOrders.length > 0}}">
+      <view class="order-card card" wx:for="{{recentOrders}}" wx:key="id" bindtap="goToOrderDetail" data-id="{{item.id}}">
+        <view class="order-header">
+          <text class="order-no">{{item.order_no}}</text>
+          <text class="status-tag status-{{item.status}}">{{item.status_name}}</text>
+        </view>
+        <view class="order-content">
+          <text class="order-category">{{item.category.name}}</text>
+          <text class="order-desc text-ellipsis">{{item.description}}</text>
+        </view>
+        <view class="order-footer">
+          <text class="order-time">{{item.created_at}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:else>
+      <text>暂无报修记录</text>
+      <text class="empty-tip">点击上方按钮提交报修</text>
+    </view>
+  </view>
+</view>

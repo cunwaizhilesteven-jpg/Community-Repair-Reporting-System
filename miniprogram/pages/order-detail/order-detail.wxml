@@ -1,0 +1,134 @@
+<!--
+  工单详情页面
+-->
+
+<view class="container" wx:if="{{!loading && order}}">
+  <!-- 工单状态 -->
+  <view class="status-card card">
+    <view class="status-info">
+      <text class="status-tag status-{{order.status}} large">{{order.status_name}}</text>
+      <text class="order-no">工单编号：{{order.order_no}}</text>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="info-card card">
+    <view class="card-title">报修信息</view>
+
+    <view class="info-row">
+      <text class="info-label">维修类别</text>
+      <text class="info-value">{{order.category.name}}</text>
+    </view>
+
+    <view class="info-row" wx:if="{{order.building}}">
+      <text class="info-label">报修位置</text>
+      <text class="info-value">{{order.building.name}} {{order.unit || ''}} {{order.room || ''}}</text>
+    </view>
+
+    <view class="info-row" wx:elif="{{order.location_desc}}">
+      <text class="info-label">报修位置</text>
+      <text class="info-value">{{order.location_desc}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="info-label">问题描述</text>
+      <text class="info-value desc">{{order.description}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="info-label">联系电话</text>
+      <view class="info-value phone" bindtap="callPhone">
+        <text>{{order.contact_phone}}</text>
+        <text class="call-btn">📞 拨打</text>
+      </view>
+    </view>
+
+    <view class="info-row">
+      <text class="info-label">报修时间</text>
+      <text class="info-value">{{order.created_at}}</text>
+    </view>
+  </view>
+
+  <!-- 报修图片 -->
+  <view class="images-card card" wx:if="{{order.images && order.images.length > 0}}">
+    <view class="card-title">报修图片</view>
+    <view class="image-grid">
+      <image
+        wx:for="{{order.images}}"
+        wx:key="id"
+        wx:if="{{item.type === 'report'}}"
+        src="{{item.image_url}}"
+        mode="aspectFill"
+        bindtap="previewImage"
+        data-urls="{{order.images}}"
+        data-current="{{item.image_url}}"
+      />
+    </view>
+  </view>
+
+  <!-- 维修反馈 -->
+  <view class="feedback-card card" wx:if="{{order.status === 'completed' || order.status === 'evaluated'}}">
+    <view class="card-title">维修反馈</view>
+
+    <view class="info-row" wx:if="{{order.repairman}}">
+      <text class="info-label">维修人员</text>
+      <text class="info-value">{{order.repairman.name}}</text>
+    </view>
+
+    <view class="info-row" wx:if="{{order.completed_at}}">
+      <text class="info-label">完成时间</text>
+      <text class="info-value">{{order.completed_at}}</text>
+    </view>
+
+    <!-- 维修图片 -->
+    <view class="image-grid" wx:if="{{order.images && order.images.length > 0}}">
+      <image
+        wx:for="{{order.images}}"
+        wx:key="id"
+        wx:if="{{item.type === 'repair'}}"
+        src="{{item.image_url}}"
+        mode="aspectFill"
+        bindtap="previewImage"
+        data-urls="{{order.images}}"
+        data-current="{{item.image_url}}"
+      />
+    </view>
+  </view>
+
+  <!-- 进度时间线 -->
+  <view class="timeline-card card" wx:if="{{order.logs && order.logs.length > 0}}">
+    <view class="card-title">处理进度</view>
+    <view class="timeline">
+      <view class="timeline-item" wx:for="{{order.logs}}" wx:key="id">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-title">{{item.action_name}}</view>
+          <view class="timeline-desc" wx:if="{{item.remark}}">{{item.remark}}</view>
+          <view class="timeline-time">{{item.created_at}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 评价信息 -->
+  <view class="evaluation-card card" wx:if="{{order.evaluation}}">
+    <view class="card-title">我的评价</view>
+    <view class="rating">
+      <text class="star" wx:for="{{5}}" wx:key="index">{{index < order.evaluation.rating ? '★' : '☆'}}</text>
+    </view>
+    <view class="evaluation-content" wx:if="{{order.evaluation.content}}">
+      {{order.evaluation.content}}
+    </view>
+    <view class="evaluation-time">{{order.evaluation.created_at}}</view>
+  </view>
+
+  <!-- 评价按钮 -->
+  <view class="action-area" wx:if="{{order.status === 'completed'}}">
+    <button class="btn btn-primary btn-block" bindtap="goToEvaluate">评价服务</button>
+  </view>
+</view>
+
+<!-- 加载中 -->
+<view class="loading" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

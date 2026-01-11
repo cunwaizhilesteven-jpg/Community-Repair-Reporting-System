@@ -1,0 +1,29 @@
+<view class="container">
+  <scroll-view class="status-tabs" scroll-x>
+    <view class="status-tab {{currentStatus === item.value ? 'active' : ''}}"
+      wx:for="{{statusOptions}}" wx:key="value"
+      bindtap="onStatusChange" data-status="{{item.value}}">
+      {{item.label}}
+    </view>
+  </scroll-view>
+
+  <view class="order-list">
+    <view class="order-card card" wx:for="{{orders}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <view class="order-header">
+        <text class="order-no">{{item.order_no}}</text>
+        <text class="status-tag status-{{item.status}}">{{item.status_name}}</text>
+      </view>
+      <view class="order-content">
+        <text class="order-category">{{item.category.name}}</text>
+        <text class="order-desc text-ellipsis">{{item.description}}</text>
+      </view>
+      <view class="order-footer">
+        <text>📞 {{item.contact_phone}}</text>
+        <text class="order-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}"><text>加载中...</text></view>
+  <view class="empty-state" wx:if="{{!loading && orders.length === 0}}"><text>暂无工单</text></view>
+</view>

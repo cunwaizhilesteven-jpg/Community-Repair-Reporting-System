@@ -1,0 +1,170 @@
+/**
+ * 首页样式
+ */
+
+/* 欢迎卡片 */
+.welcome-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.role-entry {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background-color: #e6f7ff;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  color: #1890ff;
+}
+
+.role-entry .arrow {
+  margin-left: 8rpx;
+}
+
+/* 报修按钮卡片 */
+.action-card {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 24rpx;
+}
+
+.action-icon {
+  width: 80rpx;
+  height: 80rpx;
+  background-color: #e6f7ff;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.icon-repair {
+  font-size: 40rpx;
+}
+
+.action-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.action-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.action-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+/* 区块 */
+.section {
+  margin-top: 20rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8rpx 20rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.section-more {
+  font-size: 26rpx;
+  color: #1890ff;
+}
+
+/* 工单卡片 */
+.order-card {
+  margin-bottom: 16rpx;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.order-no {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.order-content {
+  margin-bottom: 16rpx;
+}
+
+.order-category {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  background-color: #f0f0f0;
+  border-radius: 4rpx;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.order-desc {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-top: 8rpx;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.order-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 空状态 */
+.empty-state {
+  padding: 60rpx 0;
+  text-align: center;
+}
+
+.empty-tip {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #ccc;
+}

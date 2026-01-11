@@ -1,0 +1,20 @@
+<view class="container" wx:if="{{!loading && stats}}">
+  <view class="card">
+    <view class="card-title">工单统计</view>
+    <view class="stat-row"><text>工单总数</text><text class="stat-value">{{stats.total}}</text></view>
+    <view class="stat-row"><text>待审核</text><text class="stat-value">{{stats.by_status.pending || 0}}</text></view>
+    <view class="stat-row"><text>已分配</text><text class="stat-value">{{stats.by_status.assigned || 0}}</text></view>
+    <view class="stat-row"><text>处理中</text><text class="stat-value">{{stats.by_status.processing || 0}}</text></view>
+    <view class="stat-row"><text>已完成</text><text class="stat-value">{{stats.by_status.completed || 0}}</text></view>
+    <view class="stat-row"><text>已评价</text><text class="stat-value">{{stats.by_status.evaluated || 0}}</text></view>
+  </view>
+  <view class="card">
+    <view class="card-title">处理效率</view>
+    <view class="stat-row"><text>平均处理时长</text><text class="stat-value">{{stats.avg_process_time}} 小时</text></view>
+  </view>
+  <view class="card">
+    <view class="card-title">评价统计</view>
+    <view class="stat-row"><text>平均评分</text><text class="stat-value rating">{{stats.rating_stats.average}} ★</text></view>
+  </view>
+</view>
+<view class="loading" wx:if="{{loading}}"><text>加载中...</text></view>

@@ -1,0 +1,23 @@
+<view class="container" wx:if="{{!loading && order}}">
+  <view class="status-card card"><text class="status-tag status-{{order.status}} large">{{order.status_name}}</text><text class="order-no">{{order.order_no}}</text></view>
+  <view class="info-card card">
+    <view class="card-title">报修信息</view>
+    <view class="info-row"><text class="info-label">报修人</text><text class="info-value">{{order.user.name}}</text></view>
+    <view class="info-row"><text class="info-label">类别</text><text class="info-value">{{order.category.name}}</text></view>
+    <view class="info-row"><text class="info-label">位置</text><text class="info-value">{{order.building.name || ''}} {{order.unit || ''}} {{order.room || ''}} {{order.location_desc || ''}}</text></view>
+    <view class="info-row"><text class="info-label">描述</text><text class="info-value desc">{{order.description}}</text></view>
+    <view class="info-row"><text class="info-label">电话</text><text class="info-value">{{order.contact_phone}}</text></view>
+    <view class="info-row"><text class="info-label">时间</text><text class="info-value">{{order.created_at}}</text></view>
+  </view>
+  <view class="assign-card card" wx:if="{{order.status === 'pending'}}">
+    <view class="card-title">分配维修人员</view>
+    <picker mode="selector" range="{{repairmen}}" range-key="name" bindchange="onRepairmanChange">
+      <view class="picker-box">{{selectedRepairman >= 0 ? repairmen[selectedRepairman].name : '请选择维修人员'}}</view>
+    </picker>
+    <button class="btn btn-primary" style="margin-top: 20rpx;" bindtap="assignOrder">确认分配</button>
+  </view>
+  <view class="info-card card" wx:if="{{order.repairman}}">
+    <view class="info-row"><text class="info-label">维修人员</text><text class="info-value">{{order.repairman.name}}</text></view>
+  </view>
+</view>
+<view class="loading" wx:if="{{loading}}"><text>加载中...</text></view>

@@ -1,0 +1,4 @@
+.category-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16rpx; }
+.category-name { font-size: 30rpx; font-weight: 500; }
+.category-desc { font-size: 24rpx; color: #999; display: block; margin-top: 8rpx; }
+.category-action { color: #ff4d4f; font-size: 26rpx; }

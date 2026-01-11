@@ -1,0 +1,9 @@
+<view class="container">
+  <button class="btn btn-primary" bindtap="addCategory" style="margin-bottom: 20rpx;">+ 添加类别</button>
+  <view class="category-item card" wx:for="{{categories}}" wx:key="id">
+    <view class="category-info"><text class="category-name">{{item.name}}</text><text class="category-desc">{{item.description || ''}}</text></view>
+    <view class="category-action" bindtap="deleteCategory" data-id="{{item.id}}">删除</view>
+  </view>
+  <view class="loading" wx:if="{{loading}}"><text>加载中...</text></view>
+  <view class="empty-state" wx:if="{{!loading && categories.length === 0}}"><text>暂无类别</text></view>
+</view>

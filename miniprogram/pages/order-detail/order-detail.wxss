@@ -1,0 +1,172 @@
+/**
+ * 工单详情页面样式
+ */
+
+.container {
+  padding-bottom: 120rpx;
+}
+
+/* 状态卡片 */
+.status-card {
+  text-align: center;
+  padding: 40rpx;
+}
+
+.status-tag.large {
+  font-size: 32rpx;
+  padding: 12rpx 32rpx;
+}
+
+.order-no {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 信息卡片 */
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.info-label {
+  width: 160rpx;
+  flex-shrink: 0;
+  font-size: 26rpx;
+  color: #999;
+}
+
+.info-value {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333;
+}
+
+.info-value.desc {
+  line-height: 1.6;
+}
+
+.info-value.phone {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.call-btn {
+  color: #1890ff;
+  font-size: 24rpx;
+}
+
+/* 图片网格 */
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.image-grid image {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 8rpx;
+}
+
+/* 时间线 */
+.timeline {
+  position: relative;
+  padding-left: 30rpx;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8rpx;
+  top: 20rpx;
+  bottom: 20rpx;
+  width: 2rpx;
+  background-color: #e8e8e8;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 30rpx;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -26rpx;
+  top: 8rpx;
+  width: 16rpx;
+  height: 16rpx;
+  background-color: #1890ff;
+  border-radius: 50%;
+}
+
+.timeline-content {
+  padding-left: 16rpx;
+}
+
+.timeline-title {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.timeline-desc {
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 8rpx;
+}
+
+.timeline-time {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+/* 评价 */
+.rating {
+  margin-bottom: 16rpx;
+}
+
+.star {
+  font-size: 40rpx;
+  color: #faad14;
+  margin-right: 8rpx;
+}
+
+.evaluation-content {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+}
+
+.evaluation-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* 底部操作区 */
+.action-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx;
+  background-color: #fff;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+}

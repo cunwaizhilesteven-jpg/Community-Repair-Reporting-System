@@ -1,0 +1,71 @@
+<!--
+  工单列表页面
+-->
+
+<view class="container">
+  <!-- 状态筛选 -->
+  <scroll-view class="status-tabs" scroll-x>
+    <view
+      class="status-tab {{currentStatus === item.value ? 'active' : ''}}"
+      wx:for="{{statusOptions}}"
+      wx:key="value"
+      bindtap="onStatusChange"
+      data-status="{{item.value}}"
+    >
+      {{item.label}}
+    </view>
+  </scroll-view>
+
+  <!-- 工单列表 -->
+  <view class="order-list">
+    <view
+      class="order-card card"
+      wx:for="{{orders}}"
+      wx:key="id"
+      bindtap="goToDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="order-header">
+        <text class="order-no">{{item.order_no}}</text>
+        <text class="status-tag status-{{item.status}}">{{item.status_name}}</text>
+      </view>
+      <view class="order-content">
+        <text class="order-category">{{item.category.name}}</text>
+        <text class="order-desc text-ellipsis">{{item.description}}</text>
+      </view>
+      <view class="order-location" wx:if="{{item.building}}">
+        <text class="location-icon">📍</text>
+        <text>{{item.building.name}} {{item.unit}} {{item.room}}</text>
+      </view>
+      <view class="order-location" wx:elif="{{item.location_desc}}">
+        <text class="location-icon">📍</text>
+        <text>{{item.location_desc}}</text>
+      </view>
+      <view class="order-footer">
+        <text class="order-time">{{item.created_at}}</text>
+        <text class="order-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{!loading && hasMore && orders.length > 0}}">
+    <text>上拉加载更多</text>
+  </view>
+
+  <!-- 没有更多 -->
+  <view class="no-more" wx:if="{{!loading && !hasMore && orders.length > 0}}">
+    <text>没有更多了</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && orders.length === 0}}">
+    <text>暂无工单记录</text>
+    <button class="btn btn-primary" style="margin-top: 30rpx;" bindtap="goToCreate">去报修</button>
+  </view>
+</view>

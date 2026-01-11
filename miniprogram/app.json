@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/create-order/create-order",
+    "pages/order-list/order-list",
+    "pages/order-detail/order-detail",
+    "pages/evaluate/evaluate",
+    "pages/repairman/index/index",
+    "pages/repairman/order-detail/order-detail",
+    "pages/repairman/complete/complete",
+    "pages/admin/index/index",
+    "pages/admin/work-orders/work-orders",
+    "pages/admin/order-detail/order-detail",
+    "pages/admin/categories/categories",
+    "pages/admin/statistics/statistics"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1890ff",
+    "navigationBarTitleText": "阳光社区报修",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1890ff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/order-list/order-list",
+        "text": "我的工单",
+        "iconPath": "images/order.png",
+        "selectedIconPath": "images/order-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

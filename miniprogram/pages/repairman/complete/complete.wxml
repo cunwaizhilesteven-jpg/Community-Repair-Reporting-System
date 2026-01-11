@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="card">
+    <view class="form-label">维修说明</view>
+    <textarea class="form-textarea" placeholder="请描述维修情况..." value="{{remark}}" bindinput="onRemarkInput" />
+  </view>
+  <view class="card">
+    <view class="form-label">维修图片（可选）</view>
+    <view class="image-list">
+      <view class="image-item" wx:for="{{images}}" wx:key="index">
+        <image src="{{item}}" mode="aspectFill" />
+        <view class="delete-btn" bindtap="deleteImage" data-index="{{index}}">×</view>
+      </view>
+      <view class="image-item add-btn" wx:if="{{images.length < 3}}" bindtap="chooseImage">
+        <text class="add-icon">+</text>
+      </view>
+    </view>
+  </view>
+  <view class="submit-area">
+    <button class="btn btn-primary btn-block" bindtap="submit" disabled="{{submitting}}">{{submitting ? '提交中...' : '完成维修'}}</button>
+  </view>
+</view>

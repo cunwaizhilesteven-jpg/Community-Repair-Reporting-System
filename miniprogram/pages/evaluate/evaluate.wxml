@@ -1,0 +1,39 @@
+<!--
+  评价页面
+-->
+
+<view class="container">
+  <view class="card">
+    <view class="section-title">服务评分</view>
+    <view class="rating-area">
+      <text
+        class="star {{index < rating ? 'active' : ''}}"
+        wx:for="{{5}}"
+        wx:key="index"
+        bindtap="onRatingChange"
+        data-rating="{{index + 1}}"
+      >{{index < rating ? '★' : '☆'}}</text>
+    </view>
+    <view class="rating-text">
+      {{rating === 5 ? '非常满意' : rating === 4 ? '满意' : rating === 3 ? '一般' : rating === 2 ? '不满意' : '非常不满意'}}
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">评价内容（选填）</view>
+    <textarea
+      class="form-textarea"
+      placeholder="请输入您的评价..."
+      value="{{content}}"
+      bindinput="onContentInput"
+      maxlength="500"
+    />
+    <view class="word-count">{{content.length}}/500</view>
+  </view>
+
+  <view class="submit-area">
+    <button class="btn btn-primary btn-block" bindtap="submitEvaluation" disabled="{{submitting}}">
+      {{submitting ? '提交中...' : '提交评价'}}
+    </button>
+  </view>
+</view>

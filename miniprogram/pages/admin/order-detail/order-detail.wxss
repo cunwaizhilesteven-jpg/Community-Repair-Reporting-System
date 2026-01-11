@@ -1,0 +1,2 @@
+@import '/pages/order-detail/order-detail.wxss';
+@import '/pages/create-order/create-order.wxss';
