@@ -1,0 +1,46 @@
+# ============================================
+# 阳光社区报修系统 - Python 依赖包
+# ============================================
+# 安装方法：pip install -r requirements.txt
+# ============================================
+
+# Flask 核心框架
+# Flask 是一个轻量级的 Python Web 框架
+Flask==3.0.0
+
+# 数据库相关
+# Flask-SQLAlchemy: 让 Flask 可以方便地操作数据库
+# PyMySQL: Python 连接 MySQL 的驱动
+Flask-SQLAlchemy==3.1.1
+PyMySQL==1.1.0
+
+# 用户认证
+# Flask-JWT-Extended: 处理用户登录的 Token（令牌）
+# 用户登录后会得到一个 Token，之后每次请求都带着这个 Token 证明身份
+Flask-JWT-Extended==4.6.0
+
+# 跨域支持
+# Flask-CORS: 允许小程序访问后端接口
+# 因为小程序和后端在不同的域名/端口，需要这个来允许跨域请求
+Flask-CORS==4.0.0
+
+# 数据验证
+# marshmallow: 验证用户提交的数据格式是否正确
+# 比如：手机号是不是11位、评分是不是1-5之间
+marshmallow==3.20.1
+
+# 文件上传
+# Werkzeug 是 Flask 自带的，用于处理文件上传
+# 这里不需要单独安装
+
+# 微信小程序
+# requests: 用于调用微信服务器接口（登录验证）
+requests==2.31.0
+
+# Excel 导出
+# openpyxl: 生成 Excel 文件，用于导出工单数据
+openpyxl==3.1.2
+
+# 开发工具
+# python-dotenv: 从 .env 文件读取配置（数据库密码等敏感信息）
+python-dotenv==1.0.0
