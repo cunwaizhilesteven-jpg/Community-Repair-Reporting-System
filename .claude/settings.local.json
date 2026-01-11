@@ -5,7 +5,9 @@
       "Bash(git config:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git remote set-url:*)"
+      "Bash(git remote set-url:*)",
+      "Skill(superpowers:brainstorming)",
+      "Skill(superpowers:brainstorming:*)"
     ]
   }
 }
