@@ -133,3 +133,249 @@
 1. **工单分配方式**: 物业管理员手动分配给维修人员
 2. **维修类别**: 由物业管理员自定义配置，系统不预设
 3. **居民评价**: 仅作为服务质量参考，不用于人员考核
+
+## 7. 数据库设计
+
+### 7.1 数据表结构
+
+#### users (用户表)
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | INT | 主键，自增 |
+| openid | VARCHAR(64) | 微信小程序唯一标识 |
+| phone | VARCHAR(20) | 手机号 |
+| name | VARCHAR(50) | 姓名 |
+| role | ENUM | 角色(resident/repairman/admin/super) |
+| status | ENUM | 状态(active/disabled) |
+| created_at | DATETIME | 创建时间 |
+| updated_at | DATETIME | 更新时间 |
+
+#### buildings (楼栋表)
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | INT | 主键，自增 |
+| name | VARCHAR(50) | 楼栋名称(如"1栋") |
+| units | INT | 单元数量 |
+| floors | INT | 楼层数 |
+| created_at | DATETIME | 创建时间 |
+
+#### repair_categories (维修类别表)
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | INT | 主键，自增 |
+| name | VARCHAR(50) | 类别名称(如"水管维修") |
+| description | VARCHAR(200) | 类别描述 |
+| status | ENUM | 状态(active/disabled) |
+| created_at | DATETIME | 创建时间 |
+
+#### work_orders (工单表)
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | INT | 主键，自增 |
+| order_no | VARCHAR(20) | 工单编号(如"WO202601110001") |
+| user_id | INT | 报修居民ID，外键→users |
+| category_id | INT | 维修类别ID，外键→repair_categories |
+| building_id | INT | 楼栋ID，外键→buildings，可为空 |
+| unit | VARCHAR(10) | 单元号，可为空 |
+| room | VARCHAR(10) | 房号，可为空 |
+| location_desc | VARCHAR(200) | 位置描述(公共区域时使用) |
+| description | TEXT | 问题描述 |
+| contact_phone | VARCHAR(20) | 联系电话 |
+| status | ENUM | 状态(pending/assigned/processing/completed/evaluated) |
+| assigned_to | INT | 维修人员ID，外键→users，可为空 |
+| assigned_at | DATETIME | 分配时间 |
+| completed_at | DATETIME | 完成时间 |
+| created_at | DATETIME | 创建时间 |
+| updated_at | DATETIME | 更新时间 |
+
+#### work_order_images (工单图片表)
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | INT | 主键，自增 |
+| work_order_id | INT | 工单ID，外键→work_orders |
+| image_url | VARCHAR(255) | 图片URL |
+| type | ENUM | 类型(report:报修图/repair:维修图) |
+| created_at | DATETIME | 创建时间 |
+
+#### work_order_logs (工单进度日志表)
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | INT | 主键，自增 |
+| work_order_id | INT | 工单ID，外键→work_orders |
+| operator_id | INT | 操作人ID，外键→users |
+| action | ENUM | 操作类型(create/audit/assign/start/complete/evaluate) |
+| from_status | VARCHAR(20) | 变更前状态 |
+| to_status | VARCHAR(20) | 变更后状态 |
+| remark | VARCHAR(500) | 备注说明 |
+| created_at | DATETIME | 操作时间 |
+
+#### evaluations (评价表)
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| id | INT | 主键，自增 |
+| work_order_id | INT | 工单ID，外键→work_orders，唯一 |
+| user_id | INT | 评价人ID，外键→users |
+| rating | TINYINT | 评分(1-5星) |
+| content | VARCHAR(500) | 评价内容，可为空 |
+| created_at | DATETIME | 评价时间 |
+
+### 7.2 E-R 关系图
+
+```
+┌──────────┐       ┌───────────────────┐       ┌──────────────────┐
+│ buildings│       │      users        │       │repair_categories │
+└────┬─────┘       └─────────┬─────────┘       └────────┬─────────┘
+     │                       │                          │
+     │ 1                     │ 1                        │ 1
+     │                       │                          │
+     │ n                     │ n                        │ n
+     │        ┌──────────────┴──────────────┐           │
+     └────────┤        work_orders          ├───────────┘
+              └──────────────┬──────────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │ 1            │ 1            │ 1
+              │              │              │
+              │ n            │ n            │ 1
+       ┌──────┴──────┐ ┌─────┴─────┐ ┌──────┴──────┐
+       │work_order_  │ │work_order_│ │ evaluations │
+       │  images     │ │   logs    │ │             │
+       └─────────────┘ └───────────┘ └─────────────┘
+```
+
+### 7.3 关系说明
+
+| 关系 | 说明 |
+|------|------|
+| users → work_orders | 一个居民可提交多个工单 (1:n) |
+| users → work_orders | 一个维修人员可处理多个工单 (1:n) |
+| buildings → work_orders | 一个楼栋可有多个工单 (1:n) |
+| repair_categories → work_orders | 一个类别可有多个工单 (1:n) |
+| work_orders → work_order_images | 一个工单可有多张图片 (1:n) |
+| work_orders → work_order_logs | 一个工单可有多条日志 (1:n) |
+| work_orders → evaluations | 一个工单只有一条评价 (1:1) |
+
+## 8. API 接口设计
+
+### 8.1 基础信息
+
+- **Base URL**: `/api/v1`
+- **认证方式**: JWT Token（通过微信登录获取）
+- **响应格式**: JSON
+
+### 8.2 用户认证接口
+
+| 方法 | 接口 | 说明 | 角色 |
+|------|------|------|------|
+| POST | `/auth/login` | 微信小程序登录 | 所有 |
+| GET | `/auth/profile` | 获取当前用户信息 | 所有 |
+| PUT | `/auth/profile` | 更新个人信息 | 所有 |
+
+### 8.3 基础数据接口
+
+| 方法 | 接口 | 说明 | 角色 |
+|------|------|------|------|
+| GET | `/buildings` | 获取楼栋列表 | 所有 |
+| GET | `/categories` | 获取维修类别列表 | 所有 |
+
+### 8.4 居民端接口
+
+| 方法 | 接口 | 说明 | 角色 |
+|------|------|------|------|
+| POST | `/work-orders` | 提交报修工单 | 居民 |
+| GET | `/work-orders/mine` | 获取我的工单列表 | 居民 |
+| GET | `/work-orders/{id}` | 获取工单详情 | 居民 |
+| GET | `/work-orders/{id}/logs` | 获取工单进度时间线 | 居民 |
+| POST | `/work-orders/{id}/evaluate` | 提交评价 | 居民 |
+| POST | `/upload/image` | 上传图片 | 所有 |
+
+### 8.5 维修人员端接口
+
+| 方法 | 接口 | 说明 | 角色 |
+|------|------|------|------|
+| GET | `/repairman/work-orders` | 获取我的待处理/进行中工单 | 维修人员 |
+| PUT | `/repairman/work-orders/{id}/start` | 开始处理工单 | 维修人员 |
+| PUT | `/repairman/work-orders/{id}/complete` | 完成工单 | 维修人员 |
+| POST | `/repairman/work-orders/{id}/images` | 上传维修过程图片 | 维修人员 |
+
+### 8.6 物业管理员端接口
+
+| 方法 | 接口 | 说明 | 角色 |
+|------|------|------|------|
+| GET | `/admin/work-orders` | 获取所有工单列表(可筛选) | 管理员 |
+| PUT | `/admin/work-orders/{id}/assign` | 分配工单给维修人员 | 管理员 |
+| GET | `/admin/repairmen` | 获取维修人员列表 | 管理员 |
+| GET | `/admin/statistics` | 获取统计数据 | 管理员 |
+| GET | `/admin/evaluations` | 获取评价列表 | 管理员 |
+| POST | `/admin/categories` | 添加维修类别 | 管理员 |
+| PUT | `/admin/categories/{id}` | 编辑维修类别 | 管理员 |
+| DELETE | `/admin/categories/{id}` | 删除维修类别 | 管理员 |
+
+### 8.7 超级管理员端接口
+
+| 方法 | 接口 | 说明 | 角色 |
+|------|------|------|------|
+| GET | `/super/users` | 获取用户列表 | 超管 |
+| POST | `/super/users` | 创建用户 | 超管 |
+| PUT | `/super/users/{id}` | 编辑用户 | 超管 |
+| PUT | `/super/users/{id}/status` | 启用/禁用用户 | 超管 |
+| POST | `/super/buildings` | 添加楼栋 | 超管 |
+| PUT | `/super/buildings/{id}` | 编辑楼栋 | 超管 |
+| DELETE | `/super/buildings/{id}` | 删除楼栋 | 超管 |
+| GET | `/super/export/work-orders` | 导出工单数据(Excel) | 超管 |
+
+## 9. 页面设计
+
+### 9.1 居民端页面 (5个)
+
+| 页面 | 路径 | 功能说明 |
+|------|------|----------|
+| 首页 | /index | 快捷报修入口、最近工单列表 |
+| 报修页 | /create-order | 选择类别、位置、描述、上传图片 |
+| 工单列表 | /order-list | 状态筛选、工单卡片列表 |
+| 工单详情 | /order-detail | 工单信息、进度时间线、评价入口 |
+| 评价页 | /evaluate | 星级评分、评价内容 |
+
+### 9.2 维修人员端页面 (3个)
+
+| 页面 | 路径 | 功能说明 |
+|------|------|----------|
+| 工单列表 | /repairman/index | 待处理/进行中/已完成筛选 |
+| 工单详情 | /repairman/order-detail | 工单信息、一键拨打、开始/完成按钮 |
+| 完成维修 | /repairman/complete | 上传维修图片、填写说明 |
+
+### 9.3 物业管理员端页面 (5个)
+
+| 页面 | 路径 | 功能说明 |
+|------|------|----------|
+| 工作台 | /admin/index | 待审核数量、今日统计、快捷入口 |
+| 工单管理 | /admin/work-orders | 筛选、工单列表、审核分配 |
+| 工单详情 | /admin/order-detail | 完整信息、分配维修人员、查看评价 |
+| 类别管理 | /admin/categories | 类别列表、添加/编辑/删除 |
+| 统计报表 | /admin/statistics | 工单统计图表、处理效率、评价分布 |
+
+### 9.4 超级管理员端页面 (4个)
+
+| 页面 | 路径 | 功能说明 |
+|------|------|----------|
+| 管理首页 | /super/index | 系统概览、快捷入口 |
+| 用户管理 | /super/users | 用户列表、添加/编辑/启用禁用 |
+| 楼栋管理 | /super/buildings | 楼栋列表、添加/编辑/删除 |
+| 数据导出 | /super/export | 选择时间范围和内容、导出Excel |
+
+### 9.5 页面总览
+
+| 端 | 页面数 |
+|------|--------|
+| 居民端 | 5 |
+| 维修人员端 | 3 |
+| 物业管理员端 | 5 |
+| 超级管理员端 | 4 |
+| **总计** | **17** |
