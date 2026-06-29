@@ -1,5 +1,8 @@
 <view class="container" wx:if="{{!loading && order}}">
-  <view class="status-card card"><text class="status-tag status-{{order.status}} large">{{order.status_name}}</text><text class="order-no">{{order.order_no}}</text></view>
+  <view class="status-card card">
+    <text class="status-tag status-{{order.status}} large">{{order.status_name}}</text>
+    <text class="order-no">{{order.order_no}}</text>
+  </view>
   <view class="info-card card">
     <view class="card-title">报修信息</view>
     <view class="info-row"><text class="info-label">报修人</text><text class="info-value">{{order.user.name}}</text></view>
@@ -17,7 +20,50 @@
     <button class="btn btn-primary" style="margin-top: 20rpx;" bindtap="assignOrder">确认分配</button>
   </view>
   <view class="info-card card" wx:if="{{order.repairman}}">
+    <view class="card-title">维修信息</view>
     <view class="info-row"><text class="info-label">维修人员</text><text class="info-value">{{order.repairman.name}}</text></view>
+    <view class="info-row" wx:if="{{order.assigned_at}}"><text class="info-label">分配时间</text><text class="info-value">{{order.assigned_at}}</text></view>
+    <view class="info-row" wx:if="{{order.completed_at}}"><text class="info-label">完成时间</text><text class="info-value">{{order.completed_at}}</text></view>
+  </view>
+  <view class="card" wx:if="{{order.logs && order.logs.length > 0}}">
+    <view class="card-title">进度时间线</view>
+    <view class="timeline">
+      <view class="timeline-item" wx:for="{{order.logs}}" wx:key="id">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-title">{{item.action_name}}</view>
+          <view class="timeline-desc" wx:if="{{item.remark}}">{{item.remark}}</view>
+          <view class="timeline-time">{{item.created_at}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="status-submit-btn">
+    <button class="btn btn-primary btn-block" bindtap="showStatusModal">提交状态</button>
   </view>
 </view>
 <view class="loading" wx:if="{{loading}}"><text>加载中...</text></view>
+<view class="modal-mask" wx:if="{{showModal}}" bindtap="hideStatusModal"></view>
+<view class="modal-container" wx:if="{{showModal}}">
+  <view class="modal-header">状态提交</view>
+  <view class="modal-body">
+    <view class="modal-info-row">
+      <text class="modal-info-label">当前状态</text>
+      <text class="status-tag status-{{order.status}}">{{order.status_name}}</text>
+    </view>
+    <view class="form-item">
+      <view class="form-label">目标状态</view>
+      <picker mode="selector" range="{{statusOptions}}" range-key="name" bindchange="onStatusOptionChange">
+        <view class="picker-box">{{selectedStatus >= 0 ? statusOptions[selectedStatus].name : '请选择目标状态'}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <view class="form-label">备注说明</view>
+      <textarea class="form-textarea" placeholder="请输入备注说明（可选）" value="{{statusRemark}}" bindinput="onStatusRemarkInput" />
+    </view>
+  </view>
+  <view class="modal-footer">
+    <button class="btn btn-default modal-btn" bindtap="hideStatusModal">取消</button>
+    <button class="btn btn-primary modal-btn" bindtap="submitStatusUpdate" disabled="{{submitting}}">{{submitting ? '提交中...' : '确认提交'}}</button>
+  </view>
+</view>

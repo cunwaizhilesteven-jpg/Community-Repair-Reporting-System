@@ -8,8 +8,8 @@ from datetime import datetime, timedelta
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy import func
-from ..app import db
-from ..models import (
+from app import db
+from models import (
     User, WorkOrder, WorkOrderLog, RepairCategory,
     Evaluation
 )
@@ -31,7 +31,7 @@ def admin_required(fn):
     @wraps(fn)
     @jwt_required()
     def wrapper(*args, **kwargs):
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         user = User.query.get(user_id)
 
         if not user or not user.is_admin():
@@ -130,7 +130,7 @@ def assign_work_order(order_id):
     - repairman_id: 维修人员ID（必填）
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     work_order = WorkOrder.query.get(order_id)
 
@@ -456,4 +456,68 @@ def get_evaluations():
             'per_page': per_page,
             'pages': pagination.pages
         }
+    })
+@admin_bp.route('/evaluations', methods=['GET'])
+@admin_required
+def get_evaluations():
+    """
+    获取评价列表
+@admin_bp.route('/work-orders/<int:order_id>/status', methods=['PUT'])
+@admin_required
+def update_work_order_status(order_id):
+    """
+    管理员手动更新工单状态
+
+    允许管理员直接修改工单状态，适用于需要人工干预的场景。
+    每次状态变更都会记录到工单日志中。
+
+    请求参数（JSON）：
+    - status: 目标状态（必填）：pending/assigned/processing/completed
+    - remark: 变更说明（可选）
+    """
+
+    user_id = int(get_jwt_identity())
+
+    work_order = WorkOrder.query.get(order_id)
+
+    if not work_order:
+        return jsonify({'code': 404, 'message': '工单不存在'}), 404
+
+    data = request.get_json() or {}
+    new_status = data.get('status')
+    remark = data.get('remark', '')
+
+    if not new_status:
+        return jsonify({'code': 400, 'message': '请选择目标状态'}), 400
+
+    VALID_STATUSES = [WorkOrder.STATUS_PENDING, WorkOrder.STATUS_ASSIGNED,
+                      WorkOrder.STATUS_PROCESSING, WorkOrder.STATUS_COMPLETED]
+    if new_status not in VALID_STATUSES:
+        return jsonify({'code': 400, 'message': '无效的状态值'}), 400
+
+    old_status = work_order.status
+
+    if old_status == new_status:
+        return jsonify({'code': 400, 'message': '状态未发生变化'}), 400
+
+    work_order.status = new_status
+
+    if new_status == WorkOrder.STATUS_COMPLETED:
+        work_order.completed_at = datetime.now()
+
+    log = WorkOrderLog(
+        work_order_id=order_id,
+        operator_id=user_id,
+        action=WorkOrderLog.ACTION_AUDIT,
+        from_status=old_status,
+        to_status=new_status,
+        remark=remark
+    )
+    db.session.add(log)
+    db.session.commit()
+
+    return jsonify({
+        'code': 200,
+        'message': '状态更新成功',
+        'data': work_order.to_dict(include_details=True)
     })
