@@ -51,6 +51,27 @@ App({
 
     // 尝试从本地存储恢复登录状态
     this.checkLoginStatus();
+
+    // 预加载微信通知模板ID
+    this.loadNotifyTemplates();
+  },
+
+  /**
+   * 预加载微信通知模板ID
+   * 在启动时获取模板ID并缓存，后续点击订阅时直接使用，
+   * 避免异步请求导致手势上下文丢失。
+   */
+  loadNotifyTemplates() {
+    this.request({
+      url: '/notify/templates',
+      noAuth: true
+    }).then(res => {
+      const templates = res.data && res.data.templates;
+      if (templates && templates.length > 0) {
+        this.globalData.notifyTemplates = templates;
+        console.log('[微信通知] 模板ID加载成功:', templates);
+      }
+    }).catch(() => {});
   },
 
   /**
@@ -222,25 +243,24 @@ App({
    * 用户同意后，工单状态变更时会收到微信通知。
    */
   subscribeMessages() {
-    if (!this.globalData.isLoggedIn) return Promise.resolve();
+    if (!this.globalData.isLoggedIn) return;
 
-    return this.request({
-      url: '/notify/templates'
-    }).then(res => {
-      const templates = res.data && res.data.templates;
-      if (templates && templates.length > 0) {
-        wx.requestSubscribeMessage({
-          tmplIds: templates,
-          success: (subRes) => {
-            console.log('[微信通知] 订阅结果:', subRes);
-          },
-          fail: (err) => {
-            console.log('[微信通知] 订阅失败:', err);
-          }
-        });
+    // 使用已缓存的模板ID（启动时预加载）
+    // 直接同步调用 wx.requestSubscribeMessage，保留用户手势上下文
+    const tmplIds = this.globalData.notifyTemplates || [];
+    if (tmplIds.length === 0) {
+      console.log('[微信通知] 未加载到模板ID，请确认后端已配置');
+      return;
+    }
+
+    wx.requestSubscribeMessage({
+      tmplIds: tmplIds,
+      success: (subRes) => {
+        console.log('[微信通知] 订阅结果:', subRes);
+      },
+      fail: (err) => {
+        console.log('[微信通知] 订阅失败:', err);
       }
-    }).catch(() => {
-      // 静默失败，不影响用户体验
     });
   },
 });

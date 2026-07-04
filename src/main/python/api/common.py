@@ -113,7 +113,6 @@ def upload_image():
 
 
 @common_bp.route('/notify/templates', methods=['GET'])
-@jwt_required()
 def get_notify_templates():
     """
     获取已配置的微信订阅消息模板ID列表
