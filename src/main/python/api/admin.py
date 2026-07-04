@@ -5,6 +5,7 @@
 """
 
 from datetime import datetime, timedelta
+from services.wechat_notify import notify_order_status_change, notify_assign_notification
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy import func
@@ -173,6 +174,12 @@ def assign_work_order(order_id):
     db.session.add(log)
 
     db.session.commit()
+
+    # 发送通知给维修人员和居民
+    try:
+        notify_assign_notification(current_app._get_current_object(), work_order)
+    except Exception:
+        pass
 
     return jsonify({
         'code': 200,
@@ -515,6 +522,12 @@ def update_work_order_status(order_id):
     )
     db.session.add(log)
     db.session.commit()
+
+    # 发送状态变更通知给居民
+    try:
+        notify_order_status_change(current_app._get_current_object(), work_order)
+    except Exception:
+        pass
 
     return jsonify({
         'code': 200,

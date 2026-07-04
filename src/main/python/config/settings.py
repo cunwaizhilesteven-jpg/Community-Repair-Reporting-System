@@ -59,6 +59,16 @@ class Config:
     # 需要在微信公众平台注册小程序后获取
     WECHAT_APP_ID = os.getenv('WECHAT_APP_ID', '')
     WECHAT_APP_SECRET = os.getenv('WECHAT_APP_SECRET', '')
+    # ============================================
+    # 微信订阅消息配置（通知）
+    # ============================================
+
+    # 工单状态变更通知模板ID（通知报修居民）
+    WECHAT_STATUS_TEMPLATE_ID = os.getenv('WECHAT_STATUS_TEMPLATE_ID', '')
+
+    # 新工单分配通知模板ID（通知维修人员）
+    WECHAT_ASSIGN_TEMPLATE_ID = os.getenv('WECHAT_ASSIGN_TEMPLATE_ID', '')
+
 
     # ============================================
     # 文件上传配置

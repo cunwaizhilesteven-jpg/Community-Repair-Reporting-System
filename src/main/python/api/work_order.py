@@ -11,6 +11,8 @@ from datetime import datetime
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app import db
+from flask import current_app
+from services.wechat_notify import notify_order_status_change
 from models import (
     User, WorkOrder, WorkOrderImage, WorkOrderLog,
     Evaluation, RepairCategory, Building
@@ -374,7 +376,12 @@ def start_work_order(order_id):
     )
     db.session.add(log)
 
-    db.session.commit()
+    
+    # 发送通知给报修居民
+    try:
+        notify_order_status_change(current_app._get_current_object(), work_order)
+    except Exception:
+        passdb.session.commit()
 
     return jsonify({
         'code': 200,
@@ -437,7 +444,12 @@ def complete_work_order(order_id):
     )
     db.session.add(log)
 
-    db.session.commit()
+    
+    # 发送通知给报修居民
+    try:
+        notify_order_status_change(current_app._get_current_object(), work_order)
+    except Exception:
+        passdb.session.commit()
 
     return jsonify({
         'code': 200,
