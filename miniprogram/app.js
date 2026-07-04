@@ -243,23 +243,30 @@ App({
    * 用户同意后，工单状态变更时会收到微信通知。
    */
   subscribeMessages() {
-    if (!this.globalData.isLoggedIn) return;
-
-    // 使用已缓存的模板ID（启动时预加载）
-    // 直接同步调用 wx.requestSubscribeMessage，保留用户手势上下文
-    const tmplIds = this.globalData.notifyTemplates || [];
-    if (tmplIds.length === 0) {
-      console.log('[微信通知] 未加载到模板ID，请确认后端已配置');
+    if (!this.globalData.isLoggedIn) {
+      wx.showToast({ title: '请先登录', icon: 'none' });
       return;
     }
+
+    const tmplIds = this.globalData.notifyTemplates || [];
+    if (tmplIds.length === 0) {
+      wx.showToast({ title: '未加载到模板ID', icon: 'none' });
+      console.log('[微信通知] 缓存模板为空，检查 /notify/templates 接口');
+      return;
+    }
+
+    console.log('[微信通知] 正在请求订阅, 模板:', tmplIds);
+    wx.showToast({ title: '请求订阅权限...', icon: 'none' });
 
     wx.requestSubscribeMessage({
       tmplIds: tmplIds,
       success: (subRes) => {
         console.log('[微信通知] 订阅结果:', subRes);
+        wx.showToast({ title: '订阅请求已发送', icon: 'success' });
       },
       fail: (err) => {
         console.log('[微信通知] 订阅失败:', err);
+        wx.showToast({ title: '订阅失败: ' + (err.errMsg || ''), icon: 'none' });
       }
     });
   },
