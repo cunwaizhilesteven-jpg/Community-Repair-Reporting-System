@@ -251,22 +251,33 @@ App({
     const tmplIds = this.globalData.notifyTemplates || [];
     if (tmplIds.length === 0) {
       wx.showToast({ title: '未加载到模板ID', icon: 'none' });
-      console.log('[微信通知] 缓存模板为空，检查 /notify/templates 接口');
       return;
     }
 
-    console.log('[微信通知] 正在请求订阅, 模板:', tmplIds);
+    // 检测是否为开发模式的占位ID
+    const isDevMode = tmplIds.some(id => id.startsWith('DEVTEST_'));
+    if (isDevMode) {
+      console.log('[微信通知] 开发模式，模拟订阅成功');
+      wx.showModal({
+        title: '微信通知',
+        content: '开发模式：模拟订阅成功。配置真实模板ID后，工单状态变更时将收到微信推送。',
+        showCancel: false
+      });
+      return;
+    }
+
+    console.log('[微信通知] 请求订阅, 模板:', tmplIds);
     wx.showToast({ title: '请求订阅权限...', icon: 'none' });
 
     wx.requestSubscribeMessage({
       tmplIds: tmplIds,
       success: (subRes) => {
         console.log('[微信通知] 订阅结果:', subRes);
-        wx.showToast({ title: '订阅请求已发送', icon: 'success' });
+        wx.showToast({ title: '订阅成功', icon: 'success' });
       },
       fail: (err) => {
         console.log('[微信通知] 订阅失败:', err);
-        wx.showToast({ title: '订阅失败: ' + (err.errMsg || ''), icon: 'none' });
+        wx.showToast({ title: '订阅失败', icon: 'none' });
       }
     });
   },
