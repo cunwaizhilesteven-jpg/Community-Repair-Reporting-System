@@ -40,7 +40,7 @@ App({
     // 'repair2_test_openid'    - 维修人员（王师傅）
     // 'admin_test_openid'      - 管理员（张管理）
     // 'super_test_openid'      - 超级管理员
-    devOpenid: 'admin_test_openid'
+    devOpenid: 'resident1_test_openid'
   },
 
   /**
@@ -214,7 +214,7 @@ App({
         }
       });
     });
-  }
+  },
 
   /**
    * 请求微信订阅消息授权
