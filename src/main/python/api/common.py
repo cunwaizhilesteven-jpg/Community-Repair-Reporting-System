@@ -128,6 +128,13 @@ def get_notify_templates():
         templates.append(status_tmpl)
     if assign_tmpl:
         templates.append(assign_tmpl)
+
+    # 开发模式：没有配置模板ID时，返回占位ID用于测试
+    if not templates and current_app.debug:
+        # 占位ID：在开发者工具中会显示模拟订阅弹窗
+        templates.append('DEVTEST_STATUS_TEMPLATE_ID')
+        templates.append('DEVTEST_ASSIGN_TEMPLATE_ID')
+
     return jsonify({
         'code': 200,
         'data': {'templates': templates}
