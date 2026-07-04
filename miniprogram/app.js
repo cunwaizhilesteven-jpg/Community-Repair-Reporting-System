@@ -40,7 +40,7 @@ App({
     // 'repair2_test_openid'    - 维修人员（王师傅）
     // 'admin_test_openid'      - 管理员（张管理）
     // 'super_test_openid'      - 超级管理员
-    devOpenid: 'resident1_test_openid'
+    devOpenid: 'admin_test_openid'
   },
 
   /**
@@ -215,4 +215,32 @@ App({
       });
     });
   }
+
+  /**
+   * 请求微信订阅消息授权
+   * 获取后端已配置的模板ID，向用户发起订阅请求。
+   * 用户同意后，工单状态变更时会收到微信通知。
+   */
+  subscribeMessages() {
+    if (!this.globalData.isLoggedIn) return Promise.resolve();
+
+    return this.request({
+      url: '/notify/templates'
+    }).then(res => {
+      const templates = res.data && res.data.templates;
+      if (templates && templates.length > 0) {
+        wx.requestSubscribeMessage({
+          tmplIds: templates,
+          success: (subRes) => {
+            console.log('[微信通知] 订阅结果:', subRes);
+          },
+          fail: (err) => {
+            console.log('[微信通知] 订阅失败:', err);
+          }
+        });
+      }
+    }).catch(() => {
+      // 静默失败，不影响用户体验
+    });
+  },
 });

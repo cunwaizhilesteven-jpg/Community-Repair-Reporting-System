@@ -37,6 +37,8 @@ Page({
         order: res.data,
         loading: false
       });
+      // 加载完成后请求订阅消息
+      app.subscribeMessages();
     }).catch(() => {
       this.setData({ loading: false });
     });

@@ -6,7 +6,10 @@ Page({
   loadDetail() {
     this.setData({ loading: true });
     return app.request({ url: `/work-orders/${this.data.orderId}` })
-      .then(res => this.setData({ order: res.data, loading: false }))
+      .then(res => { 
+        this.setData({ order: res.data, loading: false });
+        app.subscribeMessages();
+      })
       .catch(() => this.setData({ loading: false }));
   },
   callPhone() { wx.makePhoneCall({ phoneNumber: this.data.order.contact_phone }); },

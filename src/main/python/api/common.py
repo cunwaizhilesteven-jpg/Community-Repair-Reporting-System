@@ -112,6 +112,28 @@ def upload_image():
     })
 
 
+@common_bp.route('/notify/templates', methods=['GET'])
+@jwt_required()
+def get_notify_templates():
+    """
+    获取已配置的微信订阅消息模板ID列表
+
+    前端在需要订阅消息时调用此接口，
+    获取后端配置的模板ID后再调用 wx.requestSubscribeMessage。
+    """
+    templates = []
+    status_tmpl = current_app.config.get('WECHAT_STATUS_TEMPLATE_ID', '')
+    assign_tmpl = current_app.config.get('WECHAT_ASSIGN_TEMPLATE_ID', '')
+    if status_tmpl:
+        templates.append(status_tmpl)
+    if assign_tmpl:
+        templates.append(assign_tmpl)
+    return jsonify({
+        'code': 200,
+        'data': {'templates': templates}
+    })
+
+
 def allowed_file(filename):
     """
     检查文件类型是否允许
