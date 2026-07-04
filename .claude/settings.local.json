@@ -7,7 +7,27 @@
       "Bash(git commit:*)",
       "Bash(git remote set-url:*)",
       "Skill(superpowers:brainstorming)",
-      "Skill(superpowers:brainstorming:*)"
+      "Skill(superpowers:brainstorming:*)",
+      "Bash(python:*)",
+      "Bash(where:*)",
+      "Bash(python3:*)",
+      "Bash(py -c:*)",
+      "Bash(dir:*)",
+      "Bash(cmd /c \"dir d:\\\\projecttttt\\\\Community Repair Reporting System\\\\miniprogram\\\\images\"\")",
+      "Bash(py -m pip install:*)",
+      "Bash(curl:*)",
+      "Bash(py run.py:*)",
+      "Bash(timeout:*)",
+      "Bash(RESIDENT_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2OTE2MjAzNSwianRpIjoiZWE5M2RjZGMtMTk3Yy00YjJjLWIxMGMtMmIzNzYzODRlY2JjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYiLCJuYmYiOjE3NjkxNjIwMzUsImNzcmYiOiI3NDkxNjQ4Zi1jNmNlLTQzNTgtYjU0My1hNGU4ZjYwMzE5OGEiLCJleHAiOjE3Njk3NjY4MzV9.yt7OG5FhUsDuXYIl8ujFpdWndBoypN0vGspqVi9K0jI\")",
+      "Bash(ADMIN_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2OTE2MjAzNiwianRpIjoiY2VjNjFkMWMtOGM0My00NGRiLTlhMTItMWJjMGRhZmJmMzQ3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3NjkxNjIwMzYsImNzcmYiOiIzNmZkMTQyMC00M2YxLTQwZGUtOTgxZS1hNmRhYjZjMTg3YzEiLCJleHAiOjE3Njk3NjY4MzZ9.d5kjY0OXmC954Omax7Pr_I1tqJAmjqhRtoCWVyaIzC8\")",
+      "Bash(SUPER_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2OTE2MjAzNywianRpIjoiM2FmZWU5NDUtZDczZS00MzM1LWE1NzUtYTkyNGRhYTYzYmU0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIiLCJuYmYiOjE3NjkxNjIwMzcsImNzcmYiOiIyMTAxZjUxYi1lMGViLTQ0MjctYjU1Ni1hYmM3NmFkOTE0M2YiLCJleHAiOjE3Njk3NjY4Mzd9.f7C4yEt8t11iiASZdM-jVw7hD2An_Z9ZR50IAmRjQ3A\")",
+      "Bash(SUPER_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2OTE2MjAzNywianRpIjoiM2FmZWU5NDUtZDczZS00MzM1LWE1NzUtYTkyNGRhYTYzYmU0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjIiLCJuYmYiOjE3NjkxNjIwMzcsImNzcmYiOiIyMTAxZjUxYi1lMGViLTQ0MjctYjU1Ni1hYmM3NmFkOTE0M2YiLCJleHAiOjE3Njk3NjY4MzV9.f7C4yEt8t11iiASZdM-jVw7hD2An_Z9ZR50IAmRjQ3A\")",
+      "Bash(REPAIRMAN_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc2OTE2MjAzOSwianRpIjoiNGFkNGQzN2EtZTNjNy00ZDhhLWE2MDMtNzRlZjE2MTcxZjAyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjQiLCJuYmYiOjE3NjkxNjIwMzksImNzcmYiOiJmZGY5ZGZlNi1kNTc3LTQ4MmItOWIyMC01MTZhNjFjYjljNzAiLCJleHAiOjE3Njk3NjY4Mzl9.uPJVSAjILdx6E9mryMt53khyAs-Nk0M4l1-rWdywMhk\")",
+      "Bash(bash scripts/set_title.sh \"Convert: paper.md to Word\")",
+      "Bash(pandoc --track-changes=all \"1764725341874 \\(1\\).docx\" -o format_sample.md)",
+      "Bash(pip show *)",
+      "Bash(bash scripts/set_title.sh \"Review: Paper & Submission Check\")",
+      "Bash(pandoc \"d:/projecttttt/Community Repair Reporting System/paper_final.docx\" -o /tmp/paper_final.md)"
     ]
   }
 }

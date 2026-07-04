@@ -19,8 +19,8 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity
 )
-from ..app import db
-from ..models import User
+from app import db
+from models import User
 
 # 创建蓝图
 # 蓝图名称 'auth'，URL 前缀在 app.py 中设置为 '/api/v1/auth'
@@ -86,12 +86,55 @@ def login():
         return jsonify({'code': 403, 'message': '账号已被禁用'}), 403
 
     # 生成 JWT Token
-    # identity 是 Token 中存储的用户标识，这里用用户ID
-    access_token = create_access_token(identity=user.id)
+    # identity 是 Token 中存储的用户标识，这里用用户ID（转为字符串）
+    access_token = create_access_token(identity=str(user.id))
 
     return jsonify({
         'code': 200,
         'message': '登录成功',
+        'data': {
+            'token': access_token,
+            'user': user.to_dict()
+        }
+    })
+
+
+@auth_bp.route('/dev-login', methods=['POST'])
+def dev_login():
+    """
+    开发模式登录（仅用于开发测试！）
+
+    请求参数（JSON）：
+    - openid: 测试用户的 openid
+
+    这个接口只在开发环境使用，生产环境应该禁用！
+    """
+
+    # 生产环境禁用此接口
+    if not current_app.debug:
+        return jsonify({'code': 403, 'message': '此接口仅在开发环境可用'}), 403
+
+    data = request.get_json()
+    openid = data.get('openid')
+
+    if not openid:
+        return jsonify({'code': 400, 'message': '缺少 openid'}), 400
+
+    # 根据 openid 查找用户
+    user = User.query.filter_by(openid=openid).first()
+
+    if not user:
+        return jsonify({'code': 404, 'message': f'用户不存在: {openid}'}), 404
+
+    if user.status == 'disabled':
+        return jsonify({'code': 403, 'message': '账号已被禁用'}), 403
+
+    # 生成 Token（identity 必须是字符串）
+    access_token = create_access_token(identity=str(user.id))
+
+    return jsonify({
+        'code': 200,
+        'message': '开发模式登录成功',
         'data': {
             'token': access_token,
             'user': user.to_dict()
@@ -110,7 +153,7 @@ def get_profile():
     """
 
     # 从 Token 中获取用户ID
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     # 查询用户
     user = User.query.get(user_id)
@@ -134,7 +177,7 @@ def update_profile():
     - phone: 手机号（选填）
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
 
     if not user:

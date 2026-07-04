@@ -24,7 +24,23 @@ App({
     token: null,
 
     // 是否已登录
-    isLoggedIn: false
+    isLoggedIn: false,
+
+    // ========================================
+    // 开发模式配置
+    // ========================================
+    // 设置为 true 启用模拟登录（不需要真实微信登录）
+    devMode: true,
+
+    // 开发模式下模拟的用户 openid
+    // 可以切换不同角色测试：
+    // 'resident1_test_openid'  - 居民（赵居民）
+    // 'resident2_test_openid'  - 居民（钱居民）
+    // 'repair1_test_openid'    - 维修人员（李师傅）
+    // 'repair2_test_openid'    - 维修人员（王师傅）
+    // 'admin_test_openid'      - 管理员（张管理）
+    // 'super_test_openid'      - 超级管理员
+    devOpenid: 'resident1_test_openid'
   },
 
   /**
@@ -59,7 +75,34 @@ App({
    */
   login() {
     return new Promise((resolve, reject) => {
-      // 调用微信登录接口
+      // ========================================
+      // 开发模式：使用模拟登录
+      // ========================================
+      if (this.globalData.devMode) {
+        console.log('开发模式：使用模拟登录');
+        this.request({
+          url: '/auth/dev-login',
+          method: 'POST',
+          data: { openid: this.globalData.devOpenid },
+          noAuth: true
+        }).then((result) => {
+          // 保存登录信息
+          this.globalData.token = result.data.token;
+          this.globalData.userInfo = result.data.user;
+          this.globalData.isLoggedIn = true;
+
+          wx.setStorageSync('token', result.data.token);
+          wx.setStorageSync('userInfo', result.data.user);
+
+          console.log('登录成功:', result.data.user);
+          resolve(result.data);
+        }).catch(reject);
+        return;
+      }
+
+      // ========================================
+      // 正式模式：使用微信登录
+      // ========================================
       wx.login({
         success: (res) => {
           if (res.code) {

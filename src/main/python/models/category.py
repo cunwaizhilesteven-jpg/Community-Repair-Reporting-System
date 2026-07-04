@@ -5,7 +5,7 @@
 """
 
 from datetime import datetime
-from ..app import db
+from app import db
 
 
 class RepairCategory(db.Model):

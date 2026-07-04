@@ -34,7 +34,7 @@ class Config:
     # 格式：mysql+pymysql://用户名:密码@主机:端口/数据库名
     SQLALCHEMY_DATABASE_URI = os.getenv(
         'DATABASE_URL',
-        'mysql+pymysql://root:123456@localhost:3306/community_repair'
+        'mysql+pymysql://root:120110@localhost:3306/community_repair'
     )
 
     # 关闭 SQLAlchemy 的修改追踪功能（节省内存）

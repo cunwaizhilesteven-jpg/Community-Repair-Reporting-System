@@ -39,7 +39,7 @@ def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv('FLASK_ENV', 'development')
 
-    from .config import config
+    from config import config
     app.config.from_object(config[config_name])
 
     # 初始化扩展
@@ -81,7 +81,7 @@ def register_blueprints(app):
     - 这样代码更清晰，更容易维护
     """
 
-    from .api import auth_bp, work_order_bp, admin_bp, super_bp, common_bp
+    from api import auth_bp, work_order_bp, admin_bp, super_bp, common_bp
 
     # 所有接口都以 /api/v1 开头
     # v1 表示 API 版本，以后升级可以用 v2

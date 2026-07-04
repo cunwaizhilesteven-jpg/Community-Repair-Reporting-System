@@ -9,8 +9,8 @@ from io import BytesIO
 from flask import Blueprint, request, jsonify, send_file
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from openpyxl import Workbook
-from ..app import db
-from ..models import User, Building, WorkOrder
+from app import db
+from models import User, Building, WorkOrder
 
 # 创建蓝图
 super_bp = Blueprint('super', __name__)
@@ -25,7 +25,7 @@ def super_required(fn):
     @wraps(fn)
     @jwt_required()
     def wrapper(*args, **kwargs):
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         user = User.query.get(user_id)
 
         if not user or not user.is_super():

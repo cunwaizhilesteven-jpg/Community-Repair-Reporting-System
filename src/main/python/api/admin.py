@@ -31,7 +31,7 @@ def admin_required(fn):
     @wraps(fn)
     @jwt_required()
     def wrapper(*args, **kwargs):
-        user_id = int(get_jwt_identity())
+        user_id = get_jwt_identity()
         user = User.query.get(user_id)
 
         if not user or not user.is_admin():
@@ -130,7 +130,7 @@ def assign_work_order(order_id):
     - repairman_id: 维修人员ID（必填）
     """
 
-    user_id = int(get_jwt_identity())
+    user_id = get_jwt_identity()
 
     work_order = WorkOrder.query.get(order_id)
 
@@ -457,11 +457,11 @@ def get_evaluations():
             'pages': pagination.pages
         }
     })
-@admin_bp.route('/evaluations', methods=['GET'])
-@admin_required
-def get_evaluations():
-    """
-    获取评价列表
+
+# ============================================
+# 工单状态更新接口
+# ============================================
+
 @admin_bp.route('/work-orders/<int:order_id>/status', methods=['PUT'])
 @admin_required
 def update_work_order_status(order_id):

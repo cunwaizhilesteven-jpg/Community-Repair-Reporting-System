@@ -10,8 +10,8 @@
 from datetime import datetime
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from ..app import db
-from ..models import (
+from app import db
+from models import (
     User, WorkOrder, WorkOrderImage, WorkOrderLog,
     Evaluation, RepairCategory, Building
 )
@@ -41,7 +41,7 @@ def create_work_order():
     - images: 图片URL列表（选填）
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
 
     if not user:
@@ -126,7 +126,7 @@ def get_my_work_orders():
     - per_page: 每页数量，默认10
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     # 获取查询参数
     status = request.args.get('status')
@@ -167,7 +167,7 @@ def get_work_order(order_id):
     - order_id: 工单ID（URL路径参数）
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
 
     work_order = WorkOrder.query.get(order_id)
@@ -195,7 +195,7 @@ def get_work_order_logs(order_id):
     返回工单的所有状态变更记录。
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     work_order = WorkOrder.query.get(order_id)
 
@@ -227,7 +227,7 @@ def evaluate_work_order(order_id):
     - content: 评价内容（选填）
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     work_order = WorkOrder.query.get(order_id)
 
@@ -302,7 +302,7 @@ def get_repairman_work_orders():
     - per_page: 每页数量，默认10
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
 
     # 验证是否是维修人员
@@ -343,7 +343,7 @@ def start_work_order(order_id):
     维修人员开始处理工单
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get(user_id)
 
     work_order = WorkOrder.query.get(order_id)
@@ -394,7 +394,7 @@ def complete_work_order(order_id):
     - images: 维修完成图片URL列表（选填）
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     work_order = WorkOrder.query.get(order_id)
 
@@ -456,7 +456,7 @@ def add_repair_images(order_id):
     - images: 图片URL列表
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
 
     work_order = WorkOrder.query.get(order_id)
 

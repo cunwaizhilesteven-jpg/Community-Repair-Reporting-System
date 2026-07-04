@@ -10,7 +10,7 @@ from datetime import datetime
 from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required
 from werkzeug.utils import secure_filename
-from ..models import Building, RepairCategory
+from models import Building, RepairCategory
 
 # 创建蓝图
 common_bp = Blueprint('common', __name__)
