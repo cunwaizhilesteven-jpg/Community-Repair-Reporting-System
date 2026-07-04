@@ -71,5 +71,12 @@ Page({
     wx.navigateTo({
       url: `/pages/evaluate/evaluate?id=${this.data.orderId}`
     });
+  },
+
+  /**
+   * 点击订阅微信通知
+   */
+  subscribeNotifications() {
+    app.subscribeMessages();
   }
 });

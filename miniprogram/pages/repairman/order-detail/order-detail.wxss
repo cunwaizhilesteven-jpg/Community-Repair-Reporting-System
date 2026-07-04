@@ -1,1 +1,19 @@
 @import '/pages/order-detail/order-detail.wxss';
+
+
+/* 复制自 order-detail.wxss */
+.subscribe-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  color: #1890ff;
+  font-size: 26rpx;
+  border-radius: 12rpx;
+  background-color: #f0f8ff;
+  border: 1rpx solid #bae0ff;
+}
+.subscribe-bar:active {
+  background-color: #d6edff;
+}

@@ -170,3 +170,21 @@
   background-color: #fff;
   box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
+
+
+/* 订阅通知栏 */
+.subscribe-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  color: #1890ff;
+  font-size: 26rpx;
+  border-radius: 12rpx;
+  background-color: #f0f8ff;
+  border: 1rpx solid #bae0ff;
+}
+.subscribe-bar:active {
+  background-color: #d6edff;
+}

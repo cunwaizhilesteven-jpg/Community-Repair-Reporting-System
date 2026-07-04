@@ -10,6 +10,9 @@
     <view class="info-row"><text class="info-label">描述</text><text class="info-value desc">{{order.description}}</text></view>
     <view class="info-row" bindtap="callPhone"><text class="info-label">电话</text><text class="info-value phone">{{order.contact_phone}} 📞</text></view>
   </view>
+  <view class="subscribe-bar" bindtap="subscribeNotifications">
+    <text>🔔  开启微信通知 - 新工单分配时接收提醒</text>
+  </view>
   <view class="action-area">
     <button class="btn btn-primary btn-block" wx:if="{{order.status === 'assigned'}}" bindtap="startOrder">开始处理</button>
     <button class="btn btn-primary btn-block" wx:if="{{order.status === 'processing'}}" bindtap="goToComplete">完成维修</button>

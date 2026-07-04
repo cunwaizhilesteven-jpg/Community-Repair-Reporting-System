@@ -122,6 +122,11 @@
     <view class="evaluation-time">{{order.evaluation.created_at}}</view>
   </view>
 
+  <!-- 开启微信通知 -->
+  <view class="subscribe-bar" bindtap="subscribeNotifications">
+    <text>🔔  开启微信通知 - 工单状态变更时接收提醒</text>
+  </view>
+
   <!-- 评价按钮 -->
   <view class="action-area" wx:if="{{order.status === 'completed'}}">
     <button class="btn btn-primary btn-block" bindtap="goToEvaluate">评价服务</button>
